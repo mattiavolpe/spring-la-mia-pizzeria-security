@@ -18,7 +18,7 @@
 				</div>
 			</form>
 			
-			<div class="my-5">
+			<div class="my-5" sec:authorize="hasAuthority('Admin')">
 				<a href="/create" class="btn btn-outline-dark">Insert a new pizza</a>
 			</div>
 			
@@ -47,7 +47,7 @@
 								</h3>
 							</a>
 						</div>
-						<div class="card-footer d-flex justify-content-center gap-2 border-0 bg-white">
+						<div class="card-footer d-flex justify-content-center gap-2 border-0 bg-white" sec:authorize="hasAuthority('Admin')">
 							<a th:href="@{/edit/{id}(id=*{id})}">
 								<i class="fa-solid fa-pen-to-square btn btn-outline-dark py-2 px-4 rounded-5 pointer" style="cursor: pointer;"></i>
 							</a>

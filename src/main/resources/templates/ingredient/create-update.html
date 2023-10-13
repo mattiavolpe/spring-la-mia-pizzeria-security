@@ -12,6 +12,7 @@
 			<h1 class="text-center">[[${ingredient.id == 0 ? 'New ingredient' : 'Edit ingredient ' + {ingredient.name}}]]</h1>
 			
 			<form method="post" th:object="${ingredient}">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				
 				<div class="my-4">
 					<div class="d-flex align-items-center gap-3">

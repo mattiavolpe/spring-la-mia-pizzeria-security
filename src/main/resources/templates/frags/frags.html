@@ -29,12 +29,20 @@
 	    <title>[[${title}]]</title>
 	  </head>
 		
-		<header th:fragment="header" class="shadow position-sticky mb-5 py-4">
-			<h1 class="text-center text-danger text-uppercase">
-				<a href="/" class="text-danger text-decoration-none">
-					<img th:src="@{/img/logo.png}" alt="Site logo" height="104" />
-				</a>
-			</h1>
+		<header th:fragment="header" class="shadow position-sticky mb-5 py-4" style="height: 152px;">
+			<div class="container position-relative h-100">
+				<div class="text-center position-absolute top-50 start-50 translate-middle">
+					<a href="/" class="text-danger text-decoration-none">
+						<img th:src="@{/img/logo.png}" alt="Site logo" height="104" />
+					</a>
+				</div>
+				<div class="position-absolute top-50 translate-middle-y" style="right: 12px;" sec:authorize="isAnonymous()">
+					<a href="/login" class="btn btn-success">LogIn</a>
+				</div>
+				<div class="position-absolute top-50 translate-middle-y" style="right: 12px;" sec:authorize="hasAnyAuthority('Admin', 'User')">
+					<a href="/logout" class="btn btn-danger">LogOut</a>
+				</div>
+			</div>
 		</header>
     
   </body>

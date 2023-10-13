@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	
+	<head th:replace="~{frags/frags :: pageHead(${ingredient.id} == 0 ? 'New ingredient' : 'Edit ingredient ' + ${ingredient.name})}" />
+  
+  <body>
+		
+		<header th:replace="~{frags/frags :: header}"></header>
+		
+		<div class="container">
+			
+			<h1 class="text-center">[[${ingredient.id == 0 ? 'New ingredient' : 'Edit ingredient ' + {ingredient.name}}]]</h1>
+			
+			<form method="post" th:object="${ingredient}">
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="name" class="w-25">Name: </label>
+						<input type="text" name="name" id="name" minlength="3" maxlength="100" placeholder="Type the name..." th:field="*{name}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('name')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('name')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<h5 th:if="${pizzas.size > 0}">Pizzas</h5>
+				<div th:each="pizza : ${pizzas}" th:object="${pizza}">
+					<input type="checkbox" th:field="${ingredient.pizzas}" th:id="*{'pizza-' + id}" th:value="*{id}" />
+					<label th:for="${'pizza-' + pizza.id}">[[*{name}]]</label>
+				</div>
+				
+				<br />
+				
+				<button class="btn btn-outline-dark" type="submit">[[${ingredient.id == 0 ? 'Insert' : 'Update'}]]</button>
+				
+			</form>
+			
+		</div>
+    
+  </body>
+  
+</html>

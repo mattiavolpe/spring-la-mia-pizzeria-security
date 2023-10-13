@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" href="data:,">
+    
+    <title>Fragments</title>
+  </head>
+  
+  <body>
+		
+		<head th:fragment="pageHead(title)">
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    
+	    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"/>
+	    
+	    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/6.4.2/css/all.min.css}"/>
+	    
+	    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.min.js}" crossorigin="anonymous" defer></script>
+	    
+	    <link rel="icon" href="data:,">
+	    
+	    <title>[[${title}]]</title>
+	  </head>
+		
+		<header th:fragment="header" class="shadow position-sticky mb-5 py-4">
+			<h1 class="text-center text-danger text-uppercase">
+				<a href="/" class="text-danger text-decoration-none">
+					<img th:src="@{/img/logo.png}" alt="Site logo" height="104" />
+				</a>
+			</h1>
+		</header>
+    
+  </body>
+  
+</html>

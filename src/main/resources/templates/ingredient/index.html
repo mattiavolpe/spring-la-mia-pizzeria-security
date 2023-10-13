@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  
+  <head th:replace="~{frags/frags :: pageHead('Fox Pizza Ingredients')}" />
+  
+  <body>
+		
+		<header th:replace="~{frags/frags :: header}"></header>
+		
+		<div class="container">
+			
+			<div class="my-5">
+				<a href="/ingredients/create" class="btn btn-outline-dark">Insert a new ingredient</a>
+			</div>
+			
+			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+				<div class="col mb-5 pb-3 text-center" th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+					<div class="card border-0 h-100">
+						<div class="card-header border-0 bg-white w-100">
+							<h3>[[*{name}]]</h3>
+						</div>
+						<div class="card-footer d-flex justify-content-center gap-2 border-0 bg-white">
+							<a th:href="@{/ingredients/edit/{id}(id=*{id})}">
+								<i class="fa-solid fa-pen-to-square btn btn-outline-dark py-2 px-4 rounded-5 pointer" style="cursor: pointer;"></i>
+							</a>
+							
+							<!-- Button trigger modal -->
+							<button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="modal" th:data-bs-target="*{'#ingredientsDelete' + {id}}" th:title="*{'ingredientsDeleteToggler' + {id}}">
+							  <i class="fa-solid fa-trash btn btn-outline-danger py-2 px-4 rounded-5 pointer" style="cursor: pointer;"></i>
+							</button>
+							
+							<!-- Modal -->
+							<div class="modal fade" th:id="*{'ingredientsDelete' + {id}}" tabindex="-1" th:aria-labelledby="*{'ingredientsModalLabel' + {id}}" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h1 class="modal-title fs-5" th:id="*{'ingredientsModalLabel' + {id}}">Delete confirmation</h1>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							      </div>
+							      <div class="modal-body">
+							        Are you sure you want to delete the ingredient "[[*{name}]]"?
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							        <form th:action="@{/ingredients/delete/{id}(id=*{id})}" method="post">
+								        <button type="submit" class="btn btn-danger">Delete</button>
+							      	</form>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<h3 th:unless="${ingredients.size > 0}">
+				No ingredients found
+			</h3>
+			
+		</div>
+    
+  </body>
+  
+</html>

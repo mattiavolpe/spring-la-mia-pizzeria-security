@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	
+	<head th:replace="~{frags/frags :: pageHead(${deal.id} == 0 ? 'New deal' : 'Edit deal ' + ${deal.title})}" />
+  
+  <body>
+		
+		<header th:replace="~{frags/frags :: header}"></header>
+		
+		<div class="container">
+			
+			<h1 class="text-center">[[${deal.id == 0 ? 'New deal for pizza ' + {pizza.name} : 'Edit deal ' + {deal.title}}]]</h1>
+			
+			<form method="post" th:object="${deal}">
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="title" class="w-25">Title: </label>
+						<input type="text" name="title" id="title" minlength="3" maxlength="100" placeholder="Type the title..." th:field="*{title}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('title')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('title')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="startDate" class="w-25">Start date: </label>
+						<input type="date" name="startDate" id="startDate" placeholder="Type the start date..." th:field="*{HtmlStartDate}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('startDate')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('startDate')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="endDate" class="w-25">End date: </label>
+						<input type="date" name="endDate" id="endDate" placeholder="Type the end date..." th:field="*{HtmlEndDate}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('endDate')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('endDate')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="discount" class="w-25">Discount percentage: </label>
+						<input type="number" min="0.1" step="0.1" name="discount" id="discount" placeholder="Type the discount percentage..." th:field="*{discount}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('discount')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('discount')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div th:if="*{id != 0}" class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="pizza" class="w-25">Target pizza: </label>
+						<select th:object="${pizzas}" th:field="${deal.pizza.id}" id="pizza" required>
+							<option th:each="pizza : ${pizzas}" th:object="${pizza}" th:value="*{id}" th:selected="${pizza.id == deal.pizza.id}">[[*{name}]]</option>
+						</select>
+					</div>
+				</div>
+				
+				<br />
+				
+				<button class="btn btn-outline-dark" type="submit">[[${deal.id == 0 ? 'Insert' : 'Update'}]]</button>
+				
+			</form>
+			
+		</div>
+    
+  </body>
+  
+</html>

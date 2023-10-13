@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	
+	<head th:replace="~{frags/frags :: pageHead(${pizza.id} == 0 ? 'New pizza' : 'Edit pizza ' + ${pizza.name})}" />
+  
+  <body>
+		
+		<header th:replace="~{frags/frags :: header}"></header>
+		
+		<div class="container">
+			
+			<form method="post" th:object="${pizza}">
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="name" class="w-25">Name: </label>
+						<input type="text" name="name" id="name" minlength="3" maxlength="100" placeholder="Type the name..." th:field="*{name}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('name')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('name')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="description" class="w-25">Description: </label>
+						<input type="text" name="description" id="description" minlength="3" maxlength="2000" placeholder="Type the description..." th:field="*{description}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('description')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('description')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="url" class="w-25">Image URL: </label>
+						<input type="text" name="url" id="url" minlength="3" maxlength="2000" placeholder="Type the image URL..." th:field="*{url}" required>
+						<img th:if="*{id != 0}" th:src="*{url}" width="200" />
+					</div>
+					<ul th:if="${#fields.hasErrors('url')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('url')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4">
+					<div class="d-flex align-items-center gap-3">
+						<label for="price" class="w-25">Price (in cents of €): </label>
+						<input type="number" name="price" id="price" min="1" placeholder="Type the price (in cents of €)..." th:field="*{price}" required>
+					</div>
+					<ul th:if="${#fields.hasErrors('price')}" class="alert alert-danger list-unstyled mt-2">
+						<li th:each="error : ${#fields.errors('price')}">[[${error}]]</li>
+					</ul>
+				</div>
+				
+				<div class="my-4 me-3 d-inline-block" th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+					<input type="checkbox" th:field="${pizza.ingredients}" th:id="*{'ingredient-' + id}" th:value="*{id}" />
+					<label th:for="${'ingredient-' + ingredient.id}">[[*{name}]]</label>
+				</div>
+				
+				<br />
+				
+				<button class="btn btn-outline-dark" type="submit">[[${pizza.id == 0 ? 'Insert' : 'Update'}]]</button>
+				
+			</form>
+			
+		</div>
+    
+  </body>
+  
+</html>

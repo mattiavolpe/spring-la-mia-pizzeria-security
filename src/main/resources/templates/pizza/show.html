@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  
+  <head th:replace="~{frags/frags :: pageHead(${pizza.name})}" />
+  
+  <body th:object="${pizza}">
+		
+		<header th:replace="~{frags/frags :: header}"></header>
+		
+		<div class="container">
+			
+			<div class="row row-cols-1 row-cols-lg-2">
+	    
+				<div class="col text-center">
+					<h3 class="mb-0">[[*{name}]]</h3>
+					<p class="mb-0">[[*{description}]]</p>
+					
+					<h3 class="mb-0">
+						<span th:if="*{discount > 0}">
+							<span class="text-success">[[${pizza.getFormattedDiscountedPrice(pizza.discount)}]]€</span>
+							<h5 class="d-inline text-danger text-decoration-line-through">[[*{FormattedPrice}]]€</h5>
+						</span>
+						<span th:unless="*{discount > 0}">[[*{FormattedPrice}]]€</span>
+					</h3>
+					
+					<img th:src="*{url}" class="w-100 my-3" />
+					
+					<h4 th:if="*{ingredients.size > 0}">Ingredients</h4>
+					<ul th:if="*{ingredients.size > 0}" class="list-unstyled">
+						<li th:each="ingredient, stats : *{ingredients}" th:object="${ingredient}" class="d-inline">
+							<span th:if="${stats.index < pizza.ingredients.size - 1}">[[*{name}]],</span>
+							<span th:unless="${stats.index < pizza.ingredients.size - 1}">[[*{name}]]</span>
+						</li>
+					</ul>
+				</div>
+					
+				<div class="col text-center">
+					<a th:href="@{'/' + *{id} + '/new-deal'}" class="d-inline-block btn btn-outline-success">Create a new deal</a>
+					
+					<hr th:if="${pizza.deals.size > 0}") />
+					
+					<ul class="list-unstyled">
+						<li th:each="deal : *{deals}" th:object="${deal}">
+							<h4>
+								<i th:if="*{isAfterOrEqual(endDate)}" class="fa-regular fa-calendar-check text-success"></i>
+								<i th:unless="*{isAfterOrEqual(endDate)}" class="fa-regular fa-calendar-xmark text-danger"></i>
+								[[*{title}]]
+							</h4>
+							<p class="mb-0">
+								<strong class="text-success">Starts:</strong> [[*{startDate}]]
+							</p>
+							<p class="mb-0">
+								<strong class="text-danger">Ends:</strong> [[*{endDate}]]
+							</p>
+							<p class="mb-0">
+								<strong>Discount:</strong> [[*{discount}]]%
+							</p>
+							<div class="d-flex align-items-center justify-content-center gap-2 mt-3">
+								
+								<a th:href="@{/deals/edit/{id}(id=*{id})}">
+									<i class="fa-solid fa-pen-to-square btn btn-outline-dark py-2 px-4 rounded-5 pointer" style="cursor: pointer;"></i>
+								</a>
+								
+								<!-- Button trigger modal -->
+								<button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="modal" th:data-bs-target="*{'#deleteDeal' + {id}}" th:title="*{'dealDeleteToggler' + {id}}">
+								  <i class="fa-solid fa-trash btn btn-outline-danger py-2 px-4 rounded-5 pointer" style="cursor: pointer;"></i>
+								</button>
+								
+								<!-- Modal -->
+								<div class="modal fade" th:id="*{'deleteDeal' + {id}}" tabindex="-1" th:aria-labelledby="*{'dealModalLabel' + {id}}" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h1 class="modal-title fs-5" th:id="*{'dealModalLabel' + {id}}">Delete confirmation</h1>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <div class="modal-body">
+								        Are you sure you want to delete the deal "[[*{title}]]"?
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								        <form th:action="@{/deals/delete/{id}(id=*{id})}" method="post">
+									        <button type="submit" class="btn btn-danger">Delete</button>
+								      	</form>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+							</div>
+							
+							<hr />
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+			
+			<h3 th:if="${pizza == null}">
+				The pizza does not exist
+			</h3>
+			
+		</div>
+    
+  </body>
+  
+</html>

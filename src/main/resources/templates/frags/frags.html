@@ -40,7 +40,9 @@
 					<a href="/login" class="btn btn-success">LogIn</a>
 				</div>
 				<div class="position-absolute top-50 translate-middle-y" style="right: 12px;" sec:authorize="hasAnyAuthority('Admin', 'User')">
-					<a href="/logout" class="btn btn-danger">LogOut</a>
+					<a href="/logout" class="btn btn-danger">
+						[[${#authentication.principal.username}]] - LogOut
+					</a>
 				</div>
 			</div>
 		</header>

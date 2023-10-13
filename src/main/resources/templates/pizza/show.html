@@ -34,7 +34,7 @@
 					</ul>
 				</div>
 					
-				<div class="col text-center">
+				<div class="col text-center" sec:authorize="hasAuthority('Admin')">
 					<a th:href="@{'/' + *{id} + '/new-deal'}" class="d-inline-block btn btn-outline-success">Create a new deal</a>
 					
 					<hr th:if="${pizza.deals.size > 0}") />

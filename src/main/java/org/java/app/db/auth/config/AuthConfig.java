@@ -20,7 +20,7 @@ public class AuthConfig {
 		.requestMatchers(userRequestMatcher()).hasAuthority("User")
 		.requestMatchers("/**").permitAll()
 		.and().formLogin().defaultSuccessUrl("/")
-		.and().logout();
+		.and().logout(logout -> logout.logoutSuccessUrl("/"));
 		
 		return http.build();
 	}

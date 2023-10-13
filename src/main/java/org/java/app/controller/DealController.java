@@ -52,7 +52,7 @@ public class DealController {
 		Deal deal = dealService.findById(id);
 		
 		model.addAttribute("deal", deal);
-		model.addAttribute("pizza", pizzaService.findById(deal.getPizza().getId()));
+		model.addAttribute("pizza", deal.getPizza());
 		model.addAttribute("pizzas", pizzaService.findAll());
 		
 		return "/deal/create-update";

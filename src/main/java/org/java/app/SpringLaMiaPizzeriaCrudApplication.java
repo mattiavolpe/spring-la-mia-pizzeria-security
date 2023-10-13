@@ -2,6 +2,10 @@ package org.java.app;
 
 import java.time.LocalDate;
 
+import org.java.app.db.auth.pojo.Role;
+import org.java.app.db.auth.pojo.User;
+import org.java.app.db.auth.service.RoleService;
+import org.java.app.db.auth.service.UserService;
 import org.java.app.db.pojo.Deal;
 import org.java.app.db.pojo.Ingredient;
 import org.java.app.db.pojo.Pizza;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner {
@@ -24,6 +29,13 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IngredientService ingredientService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringLaMiaPizzeriaCrudApplication.class, args);
@@ -76,5 +88,21 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner {
 		dealService.saveDeal(deal5);
 		
 		System.out.println("\n--------------------\nDeals seeded\n--------------------");
+		
+		Role adminRole = new Role("Admin");
+		Role userRole = new Role("User");
+		
+		roleService.saveRole(adminRole);
+		roleService.saveRole(userRole);
+		
+		System.out.println("\n--------------------\nRoles seeded\n--------------------");
+		
+		User admin = new User("Mattia", new BCryptPasswordEncoder().encode("passwordadmin"), adminRole, userRole);
+		User user = new User("MattiaUser", new BCryptPasswordEncoder().encode("passworduser"), userRole);
+		
+		userService.saveUser(admin);
+		userService.saveUser(user);
+		
+		System.out.println("\n--------------------\nUsers seeded\n--------------------");
 	}
 }

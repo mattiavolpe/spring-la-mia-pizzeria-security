@@ -19,6 +19,7 @@ import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Deal {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.java.app.db.pojo.Deal;
 import org.java.app.db.pojo.Pizza;
-import org.java.app.db.service.DealService;
 import org.java.app.db.service.IngredientService;
 import org.java.app.db.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,6 @@ public class PizzaController {
 	
 	@Autowired
 	private IngredientService ingredientService;
-	
-	@Autowired
-	private DealService dealService;
 	
 	@GetMapping
 	public String index(@RequestParam(required = false) String filter, Model model) {
@@ -101,13 +97,7 @@ public class PizzaController {
 	}
 	
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable int id, Model model) {
-		Pizza pizza = pizzaService.findById(id);
-		
-		for (Deal deal : pizza.getDeals()) {
-			dealService.deleteById(deal.getId());
-		}
-		
+	public String delete(@PathVariable int id, Model model) {		
 		pizzaService.deleteById(id);
 		
 		return "redirect:/";

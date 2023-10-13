@@ -52,8 +52,7 @@ public class Pizza {
 	@Transient
 	private float discount = 0;
 	
-//	, cascade = CascadeType.REMOVE
-	@OneToMany(mappedBy = "pizza")
+	@OneToMany(mappedBy = "pizza", cascade = CascadeType.REMOVE)
 	private List<Deal> deals;
 	
 	@ManyToMany

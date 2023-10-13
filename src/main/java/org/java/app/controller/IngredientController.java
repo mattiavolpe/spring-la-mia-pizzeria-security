@@ -42,8 +42,6 @@ public class IngredientController {
 	public String store(@Valid @ModelAttribute Ingredient ingredient, BindingResult bindingResult, Model model) {
 		ingredientService.saveIngredient(ingredient);
 		
-		System.out.println(ingredient.getPizzas());
-		
 		if (ingredient.getPizzas() != null) {
 			
 			for (Pizza pizza : ingredient.getPizzas()) {
